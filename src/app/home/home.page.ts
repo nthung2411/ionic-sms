@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { Platform } from '@ionic/angular';
-
-declare var SMSPlugin: any;
+import { SmsService } from '../sms.service';
 
 @Component({
   selector: 'app-home',
@@ -12,38 +9,32 @@ declare var SMSPlugin: any;
 export class HomePage {
 
   constructor(
-    private androidPermissions: AndroidPermissions,
-    private platform: Platform
+    private smsService: SmsService
   ) { }
 
   ionViewWillEnter() {
-
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
-      success => console.log('Permission granted'),
-      err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
-    );
-
-    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
+    this.checkSMSPermission();
   }
 
-  getSMSfromPlugin() {
+  private async populateSMSList(permissionGranted = false) {
+    if (!permissionGranted) {
+      await this.smsService.requestSMSPermission();
+    }
+    await this.getSMSfromPlugin();
+  }
 
-    this.platform.ready().then((readySource) => {
+  private checkSMSPermission() {
+    this.smsService.checkSMSPermission().then(
+      async success => {
+        const permissionGranted: boolean = success.hasPermission;
+        await this.populateSMSList(permissionGranted);
+      },
+      async err => await this.populateSMSList()
+    );
+  }
 
-      const filter = {
-        box: 'inbox', // 'inbox' (default), 'sent', 'draft'
-        indexFrom: 0, // start from index 0
-        maxCount: 10, // count of SMS to return each time
-      };
-
-      if (SMSPlugin) {
-        SMSPlugin.listSMS(filter, (list) => {
-          console.log('SMS List', list);
-        }, error => {
-          console.log('error list sms: ' + error);
-        });
-      }
-    });
+  async getSMSfromPlugin() {
+    this.smsService.getSMSfromPlugin();
   }
 }
 
