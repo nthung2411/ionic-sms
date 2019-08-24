@@ -1,3 +1,4 @@
+import { SmsModel } from './../sms.service';
 import { Component } from '@angular/core';
 import { SmsService } from '../sms.service';
 
@@ -7,6 +8,8 @@ import { SmsService } from '../sms.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+
+  public list: Array<SmsModel> = [];
 
   constructor(
     private smsService: SmsService
@@ -34,7 +37,10 @@ export class HomePage {
   }
 
   async getSMSfromPlugin() {
-    this.smsService.getSMSfromPlugin();
+    await this.smsService.getSMSfromPlugin();
+    this.smsService.smsListChangeSubscription.subscribe(() => {
+      this.list = [...this.smsService.smsList];
+    });
   }
 }
 
