@@ -1,6 +1,7 @@
 import { SmsModel } from './../sms.service';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { SmsService } from '../sms.service';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import { SmsService } from '../sms.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
+  @ViewChild(IonInfiniteScroll, { static: false }) infiniteScroll: IonInfiniteScroll;
   public list: Array<SmsModel> = [];
 
   constructor(
@@ -40,7 +41,13 @@ export class HomePage {
     await this.smsService.getSMSfromPlugin();
     this.smsService.smsListChangeSubscription.subscribe(() => {
       this.list = [...this.smsService.smsList];
+      console.log(`sms count: ${this.list.length}`);
     });
   }
-}
 
+  // private delay(countdownTime = 500): Promise<any> {
+  //   return new Promise((resolve) => {
+  //     setTimeout(resolve, countdownTime);
+  //   });
+  // }
+}

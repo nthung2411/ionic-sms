@@ -9,6 +9,15 @@ declare var SMS: any;
 })
 export class SmsService {
 
+  private step = 20;
+
+  // tslint:disable-next-line: variable-name
+  private _filter = {
+    box: 'inbox',
+    indexFrom: 0,
+    maxCount: 1000,
+  };
+
   // tslint:disable-next-line: variable-name
   private _smsList: Array<SmsModel> = [];
   public get smsList(): Array<SmsModel> {
@@ -52,18 +61,19 @@ export class SmsService {
 
     await this.platform.ready();
 
-    const filter = {
-      box: 'inbox', // 'inbox' (default), 'sent', 'draft'
-      indexFrom: 0, // start from index 0
-      maxCount: 10, // count of SMS to return each time
-    };
+    SMS.listSMS(this._filter,
+      this.onSuccess.bind(this),
+      this.onError.bind(this)
+    );
+  }
 
-    SMS.listSMS(filter, (list: Array<SmsModel>) => {
-      this._smsList = list;
-      this.smsListChangeSubscription.emit();
-    }, error => {
-      console.log('error list sms: ' + error);
-    });
+  private onSuccess(list: Array<SmsModel>) {
+    this._smsList = [...list];
+    this.smsListChangeSubscription.emit();
+  }
+
+  private onError(error) {
+    console.log('error list sms: ' + error);
   }
 }
 
