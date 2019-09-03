@@ -1,14 +1,15 @@
-import { SmsModel } from './../sms.model';
 import { Component, ViewChild } from '@angular/core';
-import { SmsService } from '../sms.service';
 import { IonInfiniteScroll } from '@ionic/angular';
+import { SmsModel } from '../sms.model';
+import { SmsService } from '../sms.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-sms',
+  templateUrl: './sms.page.html',
+  styleUrls: ['./sms.page.scss'],
 })
-export class HomePage {
+export class SmsPage {
+
   @ViewChild(IonInfiniteScroll, { static: false }) infiniteScroll: IonInfiniteScroll;
   public list: Array<SmsModel> = [];
 
@@ -90,4 +91,5 @@ export class HomePage {
   //     setTimeout(resolve, countdownTime);
   //   });
   // }
+
 }
