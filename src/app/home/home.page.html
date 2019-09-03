@@ -12,7 +12,12 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let sms of list">
-      <ion-label>{{ sms.body }}</ion-label>
+      <ion-label>
+        <div class="sms-container">
+          <div class="sms-content">{{ sms.body }}</div>
+          <div class="sms-date"> {{ sms.date | date:'short'}}</div>
+        </div>
+      </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
