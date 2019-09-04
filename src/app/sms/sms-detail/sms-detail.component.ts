@@ -1,4 +1,6 @@
+import { SmsModel } from './../../sms.model';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sms-detail',
@@ -7,8 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SmsDetailComponent implements OnInit {
 
-  constructor() { }
+  public sms: SmsModel = {} as SmsModel;
+  public id = 100;
 
-  ngOnInit() {}
+  constructor(private route: ActivatedRoute, private router: Router) { }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.sms = Object.assign(this.sms, JSON.parse(params.sms));
+      this.id = 200;
+    });
+  }
 
 }
