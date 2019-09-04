@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, NavController } from '@ionic/angular';
 import { SmsModel } from '../sms.model';
 import { SmsService } from '../sms.service';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-sms',
@@ -14,7 +15,8 @@ export class SmsPage {
   public list: Array<SmsModel> = [];
 
   constructor(
-    private smsService: SmsService
+    private smsService: SmsService,
+    private router: Router
   ) { }
 
   ionViewWillEnter() {
@@ -84,6 +86,15 @@ export class SmsPage {
     this.smsService.smsListChangeSubscription.subscribe(() => {
       this.list = [...this.smsService.smsList];
     });
+  }
+
+  async goDetail(sms: SmsModel) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        sms: JSON.stringify(sms)
+      }
+    };
+    this.router.navigate(['sms', sms._id], navigationExtras);
   }
 
   // private delay(countdownTime = 500): Promise<any> {

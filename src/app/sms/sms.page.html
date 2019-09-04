@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let sms of list">
+    <ion-item *ngFor="let sms of list" (click)="goDetail(sms)">
       <ion-label>
         <div class="sms-container">
           <div class="sms-content">{{ sms.body }}</div>
