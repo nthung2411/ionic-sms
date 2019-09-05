@@ -1,6 +1,24 @@
-<div>
-  {{sms._id}}
-</div>
-<div>
-  {{id}}
-</div>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>SMS Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="container horizontal">
+    <div class="title">
+      Id
+    </div>
+    <div class="value">
+      {{sms._id}}
+    </div>
+  </div>
+  <div class="container vertical">
+    <div class="title float">
+      Content
+    </div>
+    <div class="value paragraph">
+      {{ sms.body }}
+    </div>
+  </div>
+
+</ion-content>

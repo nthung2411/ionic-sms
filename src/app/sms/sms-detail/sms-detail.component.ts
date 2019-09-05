@@ -10,14 +10,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SmsDetailComponent implements OnInit {
 
   public sms: SmsModel = {} as SmsModel;
-  public id = 100;
 
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.sms = Object.assign(this.sms, JSON.parse(params.sms));
-      this.id = 200;
     });
   }
 

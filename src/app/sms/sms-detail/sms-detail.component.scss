@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    padding: 8px 16px;
+    border-bottom: solid 1px black;
+
+    &.horizontal {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    &.vertical {
+        flex-direction: column;
+
+        .title {
+            font-weight: 700;
+        }
+
+        .value {
+            margin-top: 8px;
+        }
+    }
+}
