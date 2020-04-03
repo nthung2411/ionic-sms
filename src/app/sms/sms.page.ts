@@ -10,14 +10,11 @@ import { Router, NavigationExtras } from '@angular/router';
   styleUrls: ['./sms.page.scss'],
 })
 export class SmsPage {
-
-  @ViewChild(IonInfiniteScroll, { static: false }) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonInfiniteScroll, { static: false })
+  infiniteScroll: IonInfiniteScroll;
   public list: Array<SmsModel> = [];
 
-  constructor(
-    private smsService: SmsService,
-    private router: Router
-  ) { }
+  constructor(private smsService: SmsService, private router: Router) {}
 
   ionViewWillEnter() {
     if ((window as any).cordova) {
@@ -27,8 +24,9 @@ export class SmsPage {
         address: 'Vietcombank',
         announcements_subtype: 0,
         app_id: 0,
-        // tslint:disable-next-line: max-line-length
-        body: 'SD TK 0501000127289 +500,000VND luc 23-08-2019 12:13:42. SD 613,115VND. Ref Sender:01604003.DD:230819.SHGD:10001662.BO:NGUYEN TAN HUNG.MOMO CHARGEDETAILS OUR',
+        body:
+          // tslint:disable-next-line: max-line-length
+          'SD TK 0501000127289 +500,000VND luc 23-08-2019 12:13:42. SD 613,115VND. Ref Sender:01604003.DD:230819.SHGD:10001662.BO:NGUYEN TAN HUNG.MOMO CHARGEDETAILS OUR',
         creator: 'com.samsung.android.messaging',
         d_rpt_cnt: 0,
         date: 1566537232614,
@@ -59,7 +57,7 @@ export class SmsPage {
         thread_id: 12,
         type: 1,
         using_mode: 0,
-        _id: 1208
+        _id: 1208,
       } as SmsModel);
     }
   }
@@ -73,9 +71,9 @@ export class SmsPage {
 
   private checkSMSPermission() {
     this.smsService.checkSMSPermission().then(
-      async success => {
+      success => {
         const permissionGranted: boolean = success.hasPermission;
-        await this.populateSMSList(permissionGranted);
+        this.populateSMSList(permissionGranted);
       },
       async err => await this.populateSMSList()
     );
@@ -91,8 +89,8 @@ export class SmsPage {
   async goDetail(sms: SmsModel) {
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        sms: JSON.stringify(sms)
-      }
+        sms: JSON.stringify(sms),
+      },
     };
     this.router.navigate(['sms', sms._id], navigationExtras);
   }
@@ -102,5 +100,4 @@ export class SmsPage {
   //     setTimeout(resolve, countdownTime);
   //   });
   // }
-
 }

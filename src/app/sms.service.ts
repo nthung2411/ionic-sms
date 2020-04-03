@@ -6,10 +6,9 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 declare var SMS: any;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SmsService {
-
   private step = 20;
 
   // tslint:disable-next-line: variable-name
@@ -33,14 +32,16 @@ export class SmsService {
   constructor(
     private platform: Platform,
     private androidPermissions: AndroidPermissions
-  ) { }
+  ) {}
 
-  checkSMSPermission() {
+  checkSMSPermission(): Promise<any> {
     if (!(window as any).cordova) {
       return Promise.resolve();
     }
 
-    return this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS);
+    return this.androidPermissions.checkPermission(
+      this.androidPermissions.PERMISSION.READ_SMS
+    );
   }
 
   requestSMSPermission() {
@@ -48,7 +49,9 @@ export class SmsService {
       return Promise.resolve();
     }
 
-    return this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
+    return this.androidPermissions.requestPermissions([
+      this.androidPermissions.PERMISSION.READ_SMS,
+    ]);
   }
 
   async getSMSfromPlugin() {
@@ -62,7 +65,8 @@ export class SmsService {
 
     await this.platform.ready();
 
-    SMS.listSMS(this._filter,
+    SMS.listSMS(
+      this._filter,
       this.onSuccess.bind(this),
       this.onError.bind(this)
     );
